@@ -1,0 +1,11 @@
+#
+# 50phpvirtualbox
+#
+{
+$OUT .= "   RewriteEngine On\n";
+$OUT .= "   RewriteRule ^/phpvirtualbox(/.*)?\$     https://%{HTTP_HOST}/phpvirtualbox\$1 [R=301,L]\n";
+if (exists $phpvirtualbox{'URL'})
+    {
+    $OUT .= "     RewriteRule ^/$phpvirtualbox{'URL'}(/.*)?\$   https://%{HTTP_HOST}/$phpvirtualbox{'URL'}\$1 [R=301,L]\n";
+    }
+}

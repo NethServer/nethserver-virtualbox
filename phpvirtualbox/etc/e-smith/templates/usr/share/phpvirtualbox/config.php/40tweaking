@@ -1,0 +1,99 @@
+
+//40Tweaking
+
+/*
+ *
+ * Not-so-common options / tweaking
+ *
+ */
+
+// Multiple servers example config. Uncomment (remove /* and */) to use.
+// Add ALL the servers you want to use. Even if you have the server set
+// above. The default server will be the first one in the list.
+/*
+var $servers = array(
+        array(
+                'name' => 'London',
+                'username' => 'user',
+                'password' => 'pass',
+                'location' => 'http://192.168.1.1:18083/',
+                'authMaster' => true // Use this server for authentication
+        ),
+        array(
+                'name' => 'New York',
+                'username' => 'user2',
+                'password' => 'pass2',
+                'location' => 'http://192.168.1.2:18083/'
+        ),
+);
+*/
+
+// Disable authentication
+#var $noAuth = true;
+
+// Host / ip to use for console connections
+#var $consoleHost = '192.168.1.40';
+
+// Disable "preview" box
+#var $noPreview = true;
+
+// Default preview box update interval in seconds
+#var $previewUpdateInterval = 30;
+
+// Preview box pixel width
+#var $previewWidth = 180;
+
+// Max number of progress operations to keep in list
+var $maxProgressList = 5;
+
+// Change default preview aspect ratio to 1. 
+// http://www.wikipedia.org/wiki/Aspect_ratio_%28image%29#Previous_and_presently_used_aspect_ratios
+#var $previewAspectRatio = 1.6;
+
+// Enable custom VM icons
+#var $enableCustomIcons = true;
+
+/*
+Exclusively use phpVirtualBox's groups configuration rather than VirtualBox groups.
+This has the following effects:
+
+*) Group changes made in phpVirtualBox will not be reflected in VirtualBox programs such as
+	VirtualBox and VBoxManage
+*) Group changes will not affect which folder a VM is placed in
+*) You can rename groups that contain running VMs and move / copy running VMs to groups
+*/
+#var $phpVboxGroups = true;
+
+
+/*
+Allow to prompt deletion hard disk files on removal from Virtual Media Manager.
+If this is not set, files are always kept. If this is set, you will be PROMPTED
+to decide whether or not you would like to delete the hard disk file(s) when you
+remove a hard disk from virtual media manager. You may still choose not to delete
+the file when prompted.
+*/
+var $deleteOnRemove = true;
+
+/*
+ * File / Folder browser settings
+ */
+
+// Restrict file types
+var $browserRestrictFiles = array('.iso','.vdi','.vmdk','.img','.bin','.vhd','.hdd','.ovf','.ova','.xml','.vbox','.cdr','.dmg','.ima','.dsk','.vfd');
+
+// Restrict locations / folders
+#var $browserRestrictFolders = array('D:\\','C:\\Users\\Ian'); // Or something like array('/home/vbox','/var/ISOs')
+
+// Force use of local, web server based file browser instead of going through vboxwebsrv
+#var $browserLocal = true;
+
+// Disable file / folder browser.
+#var $browserDisable = true;
+
+// Disable Windows drive detection
+#var $noWindowsDriveList = true;
+
+// Just list all drives from C:\ - Z:\ without checking if they exist or not.
+// This may be required on older Windows systems with more than one drive.
+#var $forceWindowsAllDriveList = true;
+

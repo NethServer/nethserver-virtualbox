@@ -1,0 +1,29 @@
+//80VMHardwareSettings
+
+// Allow VDE network configuration. This must be supported by the underlying VirtualBox installation!
+// If you do not know what VDE networking is - you do not need it, it is probably not supported by your
+// VirtualBox installation and will cause errors if enabled.
+#var $enableVDE = true; 
+
+// Disable setting SATA controllers port count to the max port number found when saving VMs.
+#var $disableSataPortCount = true;
+
+/* Enable Parallel Port configuration - EXPERIMENTAL
+LPT support may or may not work for you. 
+!!! VirtualBox LPT support only works in Linux. !!!
+*/
+#var $enableLPTConfig = true;
+
+/* Enable HardDisk IgnoreFlush configuration. This controls the "ExtraData" setting
+ * in "VBoxInternal/Devices/[controller type]/0/LUN#[x]/Config/IgnoreFlush". See
+ * Responding to guest IDE/SATA flush requests at:
+ * http://www.virtualbox.org/manual/ch12.html#idp12757424
+*/
+#var $enableHDFlushConfig = true;
+
+/*
+ * Event listener timeout in seconds. This is an advanced option that most people will
+ * probably not need to change.
+ */
+#var $eventListenerTimeout = 20;
+

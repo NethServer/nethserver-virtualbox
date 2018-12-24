@@ -1,0 +1,31 @@
+#!/usr/bin/bash
+#
+# Copyright (C) 2018 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+# Found the virtualbox version and download the Oracle VM VirtualBox Extension Pack
+
+VERSION=$(rpm -q --qf "%{VERSION}\n" $(rpm -qa VirtualBox\*))
+STRING=${VERSION%%_*el*}
+
+/usr/bin/cd /tmp
+/usr/bin/wget https://download.virtualbox.org/virtualbox/$STRING/Oracle_VM_VirtualBox_Extension_Pack-$STRING\.vbox-extpack
+/usr/bin/VBoxManage extpack install --replace Oracle_VM_VirtualBox_Extension_Pack-*vbox-extpack --accept-license=56be48f923303c8cababb0bb4c478284b688ed23f16d775d729b89a2e8e5f9eb
+/usr/bin/rm -f Oracle_VM_VirtualBox_Extension_Pack-*vbox-extpack
+

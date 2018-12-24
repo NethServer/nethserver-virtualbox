@@ -1,0 +1,78 @@
+{
+my $status = $phpvirtualbox{'status'} || "disabled";
+return "    # phpvirtualbox is disabled in this VirtualHost"
+    unless $status eq 'enabled';
+
+my $allow = (($phpvirtualbox{access} || 'private') eq "public") ? "all granted" : "ip $localAccess" ;
+my $domain = $phpvirtualbox{'DomainName'} || '';
+my $cert = $pki{'CrtFile'} || '/etc/pki/tls/certs/localhost.crt';
+my $key = $pki{'KeyFile'} || '/etc/pki/tls/private/localhost.key';
+
+$OUT .= "#------------------------------------------------------------\n";
+$OUT .= "# phpvirtualbox\n";
+$OUT .= "#------------------------------------------------------------\n";
+$OUT .= "\n";
+
+
+if ( $domain eq '' ) {
+   if ($phpvirtualbox{'URL'})
+   { $OUT .= "Alias  /$phpvirtualbox{'URL'}  /usr/share/phpvirtualbox-5.2\n"; }
+   else { 
+       $OUT .= "Alias  /phpvirtualbox  /usr/share/phpvirtualbox-5.2\n";
+   }
+}
+
+elsif ($domain) {
+    $OUT .=<<"EOF";
+
+<VirtualHost *:80>
+    ServerName $domain
+    RedirectMatch 301 ^(?!/\.well-known/acme-challenge/).* https://$domain
+    DocumentRoot  /usr/share/phpvirtualbox-5.2/
+    Redirect permanent / https://$domain/
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerName $domain
+    SSLEngine on
+    DocumentRoot  /usr/share/phpvirtualbox-5.2/
+    SSLCertificateFile "$cert"
+    SSLCertificateKeyFile "$key"
+EOF
+}
+
+
+$OUT .=<<"EOF";
+<Directory /usr/share/phpvirtualbox-5.2>
+
+<IfModule mod_dir.c>
+DirectoryIndex index.html index.php
+</IfModule>
+AllowOverride None
+
+# Only allow connections from localhost:
+Require $allow
+
+<IfModule mod_php.c>
+  php_flag magic_quotes_gpc Off
+  php_flag track_vars On
+  #php_value include_path .
+</IfModule>
+<IfModule !mod_php.c>
+  <IfModule mod_actions.c>
+    <IfModule mod_cgi.c>
+      AddType application/x-httpd-php .php
+      Action application/x-httpd-php /cgi-bin/php
+    </IfModule>
+    <IfModule mod_cgid.c>
+      AddType application/x-httpd-php .php
+      Action application/x-httpd-php /cgi-bin/php
+    </IfModule>
+  </IfModule>
+</IfModule>
+
+</Directory>
+EOF
+
+$OUT .= "</VirtualHost>" if ($domain);
+}

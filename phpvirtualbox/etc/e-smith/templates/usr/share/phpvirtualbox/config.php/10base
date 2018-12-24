@@ -1,0 +1,27 @@
+/**
+ * phpVirtualBox example configuration. 
+ * @version $Id: config.php-example 585 2015-04-04 11:39:31Z imoore76 $
+ *
+ * rename to config.php and edit as needed.
+ *
+ */
+class phpVBoxConfig \{
+
+/* Username / Password for system user that runs VirtualBox */
+var $username = 'vboxweb';
+{
+use NethServer::Password;
+my $password = NethServer::Password::store('virtualbox') || die('Could not generate virtualbox password!');
+$OUT .= "var \$password = \'$password\';";
+}
+
+/* SOAP URL of vboxwebsrv (not phpVirtualBox's URL) */
+var $location = 'http://127.0.0.1:{${'vboxweb-service'}{'TCPPort'} || '18083'}/';
+
+/* Default language. See languages folder for more language options.
+ * Can also be changed in File -> Preferences -> Language in
+ * phpVirtualBox.
+ */
+var $language = 'en';
+
+

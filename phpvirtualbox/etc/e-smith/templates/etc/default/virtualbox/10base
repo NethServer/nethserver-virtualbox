@@ -1,0 +1,4 @@
+VBOXWEB_USER=vboxweb
+VBOXWEB_HOST=127.0.0.1
+VBOXWEB_PORT={${'vboxweb-service'}{'TCPPort'} || '18083'}
+#VBOXWEB_LOGFILE=/var/log/vboxweb

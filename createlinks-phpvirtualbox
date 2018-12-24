@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+use esmith::Build::CreateLinks qw(:all);
+my $event = 'nethserver-virtualbox-phpvirtualbox-update';
+
+#action
+event_actions ( $event, 'initialize-default-databases' => '00');
+
+#templates
+templates2events("/etc/shorewall/rules", $event);
+templates2events("/usr/share/phpvirtualbox/config.php", $event);
+templates2events("/etc/default/virtualbox", $event);
+templates2events("/etc/httpd/conf.d/phpvirtualbox.conf", $event);
+templates2events("/etc/httpd/conf.d/zzz_phpvirtualbox.conf", $event);
+templates2events("/etc/httpd/conf.d/default-virtualhost.inc", $event);
+
+#service
+event_services($event, 'vboxweb-service' => 'restart');
+event_services($event, 'httpd' => 'reload');
+
+# link to php template
+
+safe_symlink("/etc/e-smith/templates-default/template-begin-php",
+"root/etc/e-smith/templates/usr/share/phpvirtualbox/config.php/template-begin");
+
+#case dc or directory installed after
+templates2events("/usr/share/phpvirtualbox/config.php",  qw (
+    nethserver-sssd-save
+    nethserver-dc-update
+    nethserver-directory-update
+    ));
+
+$event = 'trusted-networks-modify';
+templates2events("/etc/httpd/conf.d/zzz_phpvirtualbox.conf",  $event);
+event_services($event, 'httpd' => 'reload');
+
+$event = 'certificate-update';
+templates2events("/etc/httpd/conf.d/zzz_phpvirtualbox.conf",  $event);
+event_services($event, 'httpd' => 'reload');

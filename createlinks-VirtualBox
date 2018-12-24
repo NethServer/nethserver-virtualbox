@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+
+use esmith::Build::CreateLinks qw(:all);
+my $event = 'nethserver-virtualbox-VirtualBox-update';
+
+#action
+event_actions ( $event, 'initialize-default-databases' => '00');
+event_actions ( $event, 'nethserver-virtualbox-create-user-vboxweb' => '10');
+event_actions ( $event, 'nethserver-virtualbox-OracleExtensionPack' => '20');

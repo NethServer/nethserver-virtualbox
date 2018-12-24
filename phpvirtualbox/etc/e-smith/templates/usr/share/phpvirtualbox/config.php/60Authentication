@@ -1,0 +1,56 @@
+// 60Authentication
+
+{
+use esmith::util;
+use NethServer::SSSD;
+my $sssd = new NethServer::SSSD();
+use esmith::ConfigDB;
+my $db = esmith::ConfigDB->open;
+
+my $domainAD = $sssd->bindDN();
+    $domainAD =~ s/.*\@//g;
+my $userDN = $sssd->userDN();
+my $host = $sssd->ldapURI();
+
+my $auth = $db->get_prop('phpvirtualbox','Authentication') || 'internal';
+
+my $admingroup = $db->get_prop('phpvirtualbox','AdminGroup') || 'vboxadmin';
+
+
+my $usergroup = $db->get_prop('phpvirtualbox','UserGroup')|| 'vboxuser';
+
+my @adminuser = split (',', ($db->get_prop('phpvirtualbox','AdminUser')|| 'admin'));
+my $adminuser = join("',", map { "'" . $_ } @adminuser);
+$adminuser = $adminuser . "'" if ($adminuser);
+
+if ($auth eq 'internal') {
+    $OUT .= "
+        // Authentication library 
+        var \$authLib = 'Builtin';
+    ";
+}
+
+elsif ($auth eq 'AD') {
+    $OUT.="
+        var \$authLib = 'ActiveDirectory';
+        var \$authConfig = array(
+           'admin_group' => '$admingroup',
+           'user_group' => '$usergroup',
+           'host' => '$host', // domain controller
+           'domain' => '$domainAD' // active directory domain
+        );
+    ";
+}
+
+elsif ($auth eq 'LDAP') {
+    $OUT.="
+        var \$authLib = 'LDAP';
+        var \$authConfig = array(
+           'host' => '$host', // LDAP server
+           'bind_dn' => 'uid=%s, $userDN', // %s will be replaced with login username
+           'adminUser' => array($adminuser) // leave blank to let all users be admins in phpVirtualBox or specify a username
+        );
+    ";
+}
+}
+

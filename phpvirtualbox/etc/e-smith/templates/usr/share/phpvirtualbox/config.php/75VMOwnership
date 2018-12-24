@@ -1,0 +1,9 @@
+// 75VMOwnership
+
+// VM ownership
+var $enforceVMOwnership = { $phpvirtualbox{'VMOwnerShip'} || 'true';};
+
+// Per-user VM quota
+var $vmQuotaPerUser = {$phpvirtualbox{'QuotaPerUser'} || '5';};
+
+

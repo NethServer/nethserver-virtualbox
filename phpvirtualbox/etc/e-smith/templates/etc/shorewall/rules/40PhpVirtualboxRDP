@@ -1,0 +1,15 @@
+
+#
+# RDP port for phpvirtualbox
+#
+
+{
+
+# open the port in the firewall for the RDP console
+
+my $tcp = $phpvirtualbox{'TCPPortsRDP'}|| '9000-9100';
+my $zone = (($phpvirtualbox{'accessRDP'} || 'green') eq 'red') ? 'net' : 'loc';
+
+$OUT .= "ACCEPT \t$zone \t\$FW \ttcp \t$tcp";
+
+}
