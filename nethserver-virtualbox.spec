@@ -106,5 +106,5 @@ done
 %pre phpvirtualbox
 
 %changelog
-* Mon 24 Dec 2018 stephane de Labrusse <stephdl@de-labrusse.fr> - 5.2.1
+* Mon Dec 24 2018 stephane de Labrusse <stephdl@de-labrusse.fr> - 5.2.1
 - Initial release
