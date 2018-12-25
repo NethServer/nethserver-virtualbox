@@ -16,9 +16,9 @@ $OUT .= "\n";
 
 if ( $domain eq '' ) {
    if ($phpvirtualbox{'URL'})
-   { $OUT .= "Alias  /$phpvirtualbox{'URL'}  /usr/share/phpvirtualbox-5.2\n"; }
+   { $OUT .= "Alias  /$phpvirtualbox{'URL'}  /usr/share/phpvirtualbox\n"; }
    else { 
-       $OUT .= "Alias  /phpvirtualbox  /usr/share/phpvirtualbox-5.2\n";
+       $OUT .= "Alias  /phpvirtualbox  /usr/share/phpvirtualbox\n";
    }
 }
 
@@ -28,14 +28,14 @@ elsif ($domain) {
 <VirtualHost *:80>
     ServerName $domain
     RedirectMatch 301 ^(?!/\.well-known/acme-challenge/).* https://$domain
-    DocumentRoot  /usr/share/phpvirtualbox-5.2/
+    DocumentRoot  /usr/share/phpvirtualbox/
     Redirect permanent / https://$domain/
 </VirtualHost>
 
 <VirtualHost *:443>
     ServerName $domain
     SSLEngine on
-    DocumentRoot  /usr/share/phpvirtualbox-5.2/
+    DocumentRoot  /usr/share/phpvirtualbox/
     SSLCertificateFile "$cert"
     SSLCertificateKeyFile "$key"
 EOF
@@ -43,7 +43,7 @@ EOF
 
 
 $OUT .=<<"EOF";
-<Directory /usr/share/phpvirtualbox-5.2>
+<Directory /usr/share/phpvirtualbox>
 
 <IfModule mod_dir.c>
 DirectoryIndex index.html index.php

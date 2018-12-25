@@ -1,9 +1,10 @@
 # upstream version of phpvirtualbox
 %define upstreamversion 5.2-1
+%define virtualboxversion 5.2
 
-Name: nethserver-virtualbox
-Summary: Mail services configuration
-Version: 5.2.1
+Name: nethserver-virtualbox-%{virtualboxversion}
+Summary: Configure phpvirtualbox and VirtualBox for nethserver
+Version: 1.0.0
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -16,7 +17,7 @@ A rpm to configure VirtualBox and phpvirtualbox
 %package VirtualBox
 Summary: Configure VirtualBox for NethServer
 BuildArch: noarch
-Requires: VirtualBox-5.2
+Requires: VirtualBox-%{virtualboxversion}
 Requires: gcc
 Requires: make
 Requires: kernel-devel
@@ -35,7 +36,7 @@ Requires: php-soap
 Requires: php-gd
 Requires: php-xml
 Requires: php-ldap
-Requires: nethserver-virtualbox-VirtualBox = %{version}
+Requires: nethserver-virtualbox-%{virtualboxversion}-VirtualBox 
 %description phpvirtualbox
 Configure phpvirtualbox for NethServer
 
@@ -45,14 +46,14 @@ Configure phpvirtualbox for NethServer
 %build
 rm -rf %{buildroot}
 
-#phpvirtualbox binary
+#Install the  phpvirtualbox binary
 mkdir -p phpvirtualbox/usr/share/phpvirtualbox
 unzip %{SOURCE1}
 cp -r phpvirtualbox-%{upstreamversion}/* phpvirtualbox/usr/share/phpvirtualbox
 cp phpvirtualbox/usr/share/phpvirtualbox/config.php-example phpvirtualbox/usr/share/phpvirtualbox/config.php
 # Link config file to location required by phpvirtualbox
 mkdir -p  phpvirtualbox/etc/phpvirtualbox
-ln -s  phpvirtualbox/usr/share/phpvirtualbox/config.php phpvirtualbox/etc/phpvirtualbox/config.php
+ln -s  /usr/share/phpvirtualbox/config.php phpvirtualbox/etc/phpvirtualbox/config.php
 # Install a default httpd config
 install -D phpvirtualbox/usr/share/phpvirtualbox/phpvirtualbox.conf phpvirtualbox/etc/httpd/conf.d/phpvirtualbox.conf  
 

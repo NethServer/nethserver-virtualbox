@@ -1,22 +1,28 @@
 #!/usr/bin/perl -w
 
 use esmith::Build::CreateLinks qw(:all);
-my $event = 'nethserver-virtualbox-phpvirtualbox-update';
+my $grep = `grep '%define virtualboxversion' nethserver-virtualbox.spec`;
+my ($digits)  = $grep =~ /(\d\.\d)/;
+my $event = "nethserver-virtualbox-$digits-phpvirtualbox-update";
 
 #action
 event_actions ( $event, 'initialize-default-databases' => '00');
+#templates to expand
 
-#templates
-templates2events("/etc/shorewall/rules", $event);
-templates2events("/usr/share/phpvirtualbox/config.php", $event);
-templates2events("/etc/default/virtualbox", $event);
-templates2events("/etc/httpd/conf.d/phpvirtualbox.conf", $event);
-templates2events("/etc/httpd/conf.d/zzz_phpvirtualbox.conf", $event);
-templates2events("/etc/httpd/conf.d/default-virtualhost.inc", $event);
+foreach $event ( "nethserver-virtualbox-$digits-phpvirtualbox-update","phpvirtualbox-save") {
 
-#service
-event_services($event, 'vboxweb-service' => 'restart');
-event_services($event, 'httpd' => 'reload');
+    #templates
+    templates2events("/etc/shorewall/rules", $event);
+    templates2events("/usr/share/phpvirtualbox/config.php", $event);
+    templates2events("/etc/default/virtualbox", $event);
+    templates2events("/etc/httpd/conf.d/phpvirtualbox.conf", $event);
+    templates2events("/etc/httpd/conf.d/zzz_phpvirtualbox.conf", $event);
+    templates2events("/etc/httpd/conf.d/default-virtualhost.inc", $event);
+
+    #service
+    event_services($event, 'vboxweb-service' => 'restart');
+    event_services($event, 'httpd' => 'reload');
+}
 
 # link to php template
 

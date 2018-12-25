@@ -1,25 +1,16 @@
-nethserver-phpvirtualbox-5.2
+nethserver-virtualbox
 ============================
 
-A rpm to configure phpvirtualbox 5.2 for NethServer
+A rpm to configure phpvirtualbox and virtualbox for NethServer
 
-nethserver-phpvirtualbox-X.X has for dependencies nethserver-virtualbox-X.X (rpm to install VirtualBox) and phpvirtualbox. 
+nethserver-virtualbox-X.X-phpvirtualbox has for dependencies nethserver-virtualbox-X.X-VirtualBox (rpm to install VirtualBox) 
 The versions are bind:
 
-    nethserver-phpvirtualbox-5.2 requires phpvirtualbox-5.2 and nethserver-virtualbox-5.2
-    nethserver-virtualbox-5.2 which requires VirtualBox-5.2
+    nethserver-virtualbox-5.2-phpvirtualbox requires nethserver-virtualbox-5.2-VirtualBox
 
 VirtualBox compile its modules with the last kernel, you must have the most updated kernel and to start on it at boot.
 
 If the installer cannot compile the modules, then you should reboot your server and launch again the compilation by : ```/sbin/vboxconfig```
-
-### Install the virtualbox repository
-
-you could install the rpm nethserver-virtualbox-repository:
-
-    yum install nethserver-virtualbox-repository
-
-The virtualbox repository setting is bundled with the rpm nethserver-phpvirtualbox-X.X
 
 ### Oracle VM VirtualBox Extension Pack
 
@@ -27,7 +18,7 @@ This pack provides some good features like the usb support, Virtualbox RDP, disk
 It is installed by the event nethserver-virtualbox-X.X-update automatically (by the installation or a rpm update). 
 The pack is relevant of the VirtualBox version, if you need to update it, then trigger the event nethserver-virtualbox-X.X-update :
 
-    signal-event nethserver-virtualbox-5.2-update
+    signal-event virtualbox-update
 
 ### phpvirtualbox configuration
 
@@ -51,7 +42,7 @@ These are the esmith properties to modify the settings of phpvirtualbox
 for example:
 
     config setprop phpvirtualbox accessRDP red AdvancedSettings enabled
-    signal-event nethserver-phpvirtualbox-5.2-update
+    signal-event phpvirtualbox-update
 
 ### vboxweb: the user of virtualbox
 
