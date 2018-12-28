@@ -1,5 +1,5 @@
 /* Set the standard VRDE Port Number / Range, e.g. 1010-1020 or 1027 */
-var $vrdeports = '{$phpvirtualbox{'TCPPortsRDP'}|| '9000-9100';}';
+var $vrdeports = '{$phpvirtualbox{'TCPPortsRDP'}|| '19000-19100';}';
 
 /* Set the default VRDE address, e.g. 192.168.1.1 */
 {
