@@ -107,5 +107,8 @@ done
 %pre phpvirtualbox
 
 %changelog
+* Sat Jan 12 2019 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.0.0-1
+  Initial Release to nethforge stable
+
 * Mon Dec 24 2018 stephane de Labrusse <stephdl@de-labrusse.fr> - 5.2.1
 - Initial release
