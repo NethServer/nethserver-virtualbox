@@ -18,7 +18,7 @@ A rpm to configure VirtualBox and phpvirtualbox
 Summary: Configure VirtualBox for NethServer
 BuildArch: noarch
 Requires: VirtualBox-%{virtualboxversion}
-Requires: gcc
+Requires: gcc <= 4.9.0
 Requires: make
 Requires: kernel-devel
 Requires: kernel-headers
