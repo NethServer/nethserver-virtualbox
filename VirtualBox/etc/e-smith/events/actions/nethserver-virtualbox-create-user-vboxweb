@@ -25,6 +25,6 @@ PASSWORD=$(perl -MNethServer::Password -e "print NethServer::Password::store(\"v
 if /usr/bin/getent passwd vboxweb > /dev/null; then
     exit 0
 else
-    /usr/sbin/useradd -m -p $(openssl passwd -1 $PASSWORD) vboxweb
+    /usr/sbin/useradd -m -p $(openssl passwd -crypt $PASSWORD) vboxweb
     /usr/sbin/usermod -a -G vboxusers vboxweb
 fi
