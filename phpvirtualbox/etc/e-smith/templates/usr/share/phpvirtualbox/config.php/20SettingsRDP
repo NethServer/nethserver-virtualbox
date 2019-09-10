@@ -2,38 +2,34 @@
 var $vrdeports = '{$phpvirtualbox{'TCPPortsRDP'}|| '19000-19100';}';
 
 /* Set the default VRDE address, e.g. 192.168.1.1 */
+
 {
 
-use strict;
-use esmith::NetworksDB;
-use esmith::ConfigDB;
-use esmith::util;
+    use strict;
+    use esmith::NetworksDB;
+    use esmith::ConfigDB;
+    use esmith::util;
 
-my $ndb = esmith::NetworksDB->open_ro or die("Could not open Networks DB");
-my $cdb = esmith::ConfigDB->open_ro or die ('Could not open Config DB');
-my $accessRDP = $cdb->get_prop('phpvirtualbox','accessRDP') || 'green';
-my $ipaddrRDP = $cdb->get_prop('phpvirtualbox','ipaddrRDP') || '';
+    my $ndb = esmith::NetworksDB->open_ro or die("Could not open Networks DB");
+    my $cdb = esmith::ConfigDB->open_ro or die ('Could not open Config DB');
+    my $accessRDP = $cdb->get_prop('phpvirtualbox','accessRDP') || 'green';
+    my $ipaddrRDP = $cdb->get_prop('phpvirtualbox','ipaddrRDP') || '';
 
-my @green = $ndb->green();
-my $greennic = $green[0]->prop('ipaddr');
+    my @green = $ndb->green();
+    my @red = $ndb->red();
+    my $IP = '127.0.0.1';
 
-my @red = $ndb->red();
-my $rednic = $red[0]->prop('ipaddr');
+    if ($ipaddrRDP) {
+        $IP = $ipaddrRDP;
+    }
 
-my $IP = '127.0.0.1';
+    elsif (($accessRDP eq 'green') and (@green)) {
+        $IP = $green[0]->prop('ipaddr');
+    }
 
-if ($ipaddrRDP) {
-    $IP = $ipaddrRDP;
+    elsif (($accessRDP eq 'red') and (@red)) {
+        $IP = $red[0]->prop('ipaddr');
+    }
+
+    $OUT .= "var \$vrdeaddress = '$IP';";
 }
-
-elsif (($accessRDP eq 'green') and ($greennic)) {
-    $IP = $greennic;
-}
-
-elsif (($accessRDP eq 'red') and ($rednic)) {
-    $IP = $rednic;
-}
-
-$OUT .= "var \$vrdeaddress = '$IP';";
-}
-
