@@ -4,7 +4,7 @@
 
 Name: nethserver-virtualbox-%{virtualboxversion}
 Summary: Configure phpvirtualbox and VirtualBox for nethserver
-Version: 1.0.2
+Version: 1.0.3
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -107,6 +107,10 @@ done
 %pre phpvirtualbox
 
 %changelog
+* Tue Aug 10 2021 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.0.3-1
+- Merge pull request #6 from stephdl/software-repos-save
+- Do not trigger the software-repos-save
+
 * Wed Sep 11 2019 Stephane de Labrusse <stephdl@de-labrusse.fr> - 1.0.2-1
 - Virtualbox repository breaks the software center - Bug NethServer/dev#5826
 
