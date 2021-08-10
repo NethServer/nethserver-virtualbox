@@ -8,8 +8,10 @@ my $event = "nethserver-virtualbox-$digits-VirtualBox-update";
 #action
 event_actions ( $event, 'initialize-default-databases' => '00');
 event_actions ( $event, 'nethserver-virtualbox-create-user-vboxweb' => '10');
-event_actions($event,'virtualbox_enablerepo' => '10');
 
 foreach $event ( "nethserver-virtualbox-$digits-VirtualBox-update","virtualbox-save") {
     event_actions ( $event, 'nethserver-virtualbox-OracleExtensionPack' => '20');
 }
+
+# template
+templates2events("/etc/nethserver/eorepo.conf", $event);
